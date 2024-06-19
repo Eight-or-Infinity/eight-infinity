@@ -1,4 +1,4 @@
-const { parse, stringify } = require('flatted')
+import { parse, stringify } from 'flatted'
 
 async function getMusic(client) {
   const messages = await getMusicMessages(client)

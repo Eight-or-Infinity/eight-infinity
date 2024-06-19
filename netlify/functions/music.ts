@@ -1,7 +1,7 @@
-const startClient = require('../../discord/client.js')
-const { getMusic } = require('../../discord/music.ts')
+import startClient from '../../discord/client'
+import { getMusic } from '../../discord/music'
 
-const handler = async (event, context) => {
+export const handler = async (event, context) => {
   const client = await startClient()
   const musicLinks = await getMusic(client)
 
@@ -10,5 +10,3 @@ const handler = async (event, context) => {
     body: JSON.stringify({ data: musicLinks }),
   }
 }
-
-module.exports = { handler }
