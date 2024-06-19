@@ -1,0 +1,23 @@
+#music-player {
+  background: #222;
+  height: 500px;
+  padding: 20px 0;
+  border-radius: 10px;
+  width: 400px;
+}
+
+#music-player li {
+  text-align: center;
+}
+
+#music-player iframe {
+  width: 235px;
+}
+
+#music-player .track iframe {
+  height: 80px;
+}
+
+#music-player .playlist iframe {
+  height: 160px;
+}
