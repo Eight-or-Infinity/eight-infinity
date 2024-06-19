@@ -9,6 +9,7 @@ a:hover {
 
 main {
   display: flex;
+  flex-direction: column;
   justify-content: center;
 }
 

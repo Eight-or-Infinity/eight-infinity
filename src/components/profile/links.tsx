@@ -1,5 +1,5 @@
 import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
+import siteMetadata from '../../../brandconfig'
 import Icons from '../../assets/icons'
 
 const socialLink = ({ url, org }) => {
@@ -26,35 +26,7 @@ const expandedLinkSection = ({ section, data }) => (
 
 function LinkSection(props) {
   const { expand } = props
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            links {
-              socials {
-                username
-                org
-                link
-              }
-              shop {
-                username
-                org
-                link
-              }
-              stream {
-                username
-                org
-                link
-              }
-            }
-          }
-        }
-      }
-    `
-  )
-
-  const { links } = site.siteMetadata
+  const { links } = siteMetadata
   const sections = Object.keys(links)
   const filteredSections = sections.filter(s => links[s][0].org.length > 0)
   const combinedLinks = [].concat(...Object.values(links)).filter(l => l.org.length > 0) // Filtering '' entries
