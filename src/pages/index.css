@@ -12,6 +12,12 @@ main {
   justify-content: center;
 }
 
+footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
 .ant-card, .ant-card-actions {
   background: transparent;
 }
@@ -60,6 +66,7 @@ main {
 
 #expand-icon {
   color: rgba(0, 0, 0, 0.45);
+  justify-content: center;
 }
 
 /* Music */
