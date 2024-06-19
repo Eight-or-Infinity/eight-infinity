@@ -1,5 +1,8 @@
 import profileImage from "./src/images/profile-image.png";
 
+// Consider this project for file structure inspiration
+// https://github.com/brunsten/vike-react-netlify/tree/main
+
 const intro = {
   name: "Eight or Infinity",
   image: { location: profileImage, alt: "Eight/Infinity logo" },
