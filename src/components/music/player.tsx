@@ -15,19 +15,24 @@ const insertEmbed = (link, provider) => {
   }
 }
 
-const MusicLink = ({ link, setActiveTrack, setPlaying, playerRef }) => {
+const MusicLink = (props) => {
+  const { setActiveTrack, setPlaying } = props
+  const { youtubeEmbedRef, spotifyEmbedRef } = props
+  const { link } = props
   const { music } = link
+
   try {
     const { source, url } = music
     const embedLink = insertEmbed(url, source)
 
     return (
-      <li className={url.match(/album|playlist/) ? 'playlist' : 'track'}>
+      <section className={url.match(/album|playlist/) ? 'playlist' : 'track'}>
         {source === 'YouTube' ? 
           <YouTube
+            ref={youtubeEmbedRef}
             videoId={url.match(ytRegex)?.[4] || 'BXPL2-MWSNY'}
             onReady={e => {
-              playerRef.current = e.target
+              youtubeEmbedRef.current = e.target
               console.log('Ready')
             }}
             onPlay={e => setPlaying(true)}
@@ -38,9 +43,18 @@ const MusicLink = ({ link, setActiveTrack, setPlaying, playerRef }) => {
             }}
             onError={e => console.log('Error')}
           /> :
-          <SpotifyEmbed uri={embedLink} />
+          <SpotifyEmbed
+            ref={spotifyEmbedRef}
+            uri={embedLink}
+            onPlay={e => setPlaying(true)}
+            onPause={e => setPlaying(false)}
+            onEnd={e => {
+              setPlaying(false)
+              setActiveTrack(false)
+            }}
+          />
         }
-      </li>
+      </section>
     )
   } catch(e) {
     console.log(e, link)
@@ -51,14 +65,19 @@ const MusicLink = ({ link, setActiveTrack, setPlaying, playerRef }) => {
 const MusicPlayer = ({ links }) => {
   const [activeTrack, setActiveTrack] = useState<number | boolean>(false)
   const [playing, setPlaying] = useState<boolean>(false)
-  const playerRef = useRef(null)
+  const youtubeEmbedRef = useRef<any>(null)
+  const spotifyEmbedRef = useRef<any>(null)
 
   const handlePlayPause = () => {
-    if (playerRef.current) {
+    if (youtubeEmbedRef.current || spotifyEmbedRef.current) {
+      console.log('youtubeEmbedRef', youtubeEmbedRef)
+      console.log('spotifyEmbedRef', spotifyEmbedRef)
       if (playing) {
-        playerRef.current.pauseVideo()
+        youtubeEmbedRef.current?.pauseVideo()
+        spotifyEmbedRef.current?.togglePlay()
       } else {
-        playerRef.current.playVideo()
+        youtubeEmbedRef.current?.playVideo()
+        spotifyEmbedRef.current?.togglePlay()
       }
     }
   }
@@ -91,18 +110,24 @@ const MusicPlayer = ({ links }) => {
       </ul>
       {activeTrack !== false && (
         <div>
-          <MusicLink link={links[activeTrack]} setActiveTrack={setActiveTrack} setPlaying={setPlaying} playerRef={playerRef} />
+          <MusicLink
+            link={links[activeTrack]}
+            setActiveTrack={setActiveTrack}
+            setPlaying={setPlaying}
+            youtubeEmbedRef={youtubeEmbedRef}
+            spotifyEmbedRef={spotifyEmbedRef}
+          />
         </div>
       )}
       <br />
       <section style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 10, maxWidth: 400 }}>
-        <button onClick={handlePrev} style={{ background: 'gray', color: 'white', width: 60, height: 40 }}>
+        <button className="button" onClick={handlePrev}>
           {'<<<'}
         </button>
-        <button onClick={handlePlayPause} style={{ background: 'red', color: 'white', width: 60, height: 40, margin: '0 10px' }}>
+        <button className="button playback" onClick={handlePlayPause}>
           {playing ? '||' : '|>'}
         </button>
-        <button onClick={handleSkip} style={{ background: 'gray', color: 'white', width: 60, height: 40 }}>
+        <button className="button" onClick={handleSkip}>
           {'>>>'}
         </button>
       </section>
