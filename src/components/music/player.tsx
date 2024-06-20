@@ -15,7 +15,7 @@ const insertEmbed = (link, provider) => {
   }
 }
 
-const MusicLink = ({ link, setActiveTrack }) => {
+const MusicLink = ({ link, setActiveTrack, setPlaying }) => {
   const { music } = link
   try {
     const { source, url } = music
@@ -27,9 +27,12 @@ const MusicLink = ({ link, setActiveTrack }) => {
           <YouTube
             videoId={url.match(ytRegex)?.[4] || 'BXPL2-MWSNY'}
             onReady={e => console.log('Ready')}
-            onPlay={e => console.log('Playing')}
-            onPause={e => console.log('Paused')}
-            onEnd={e => console.log('End of song')}
+            onPlay={e => setPlaying(true)}
+            onPause={e => setPlaying(false)}
+            onEnd={e => {
+              setPlaying(false)
+              setActiveTrack(false)
+            }}
             onError={e => console.log('Error')}
           /> :
           <SpotifyEmbed uri={embedLink} />
@@ -62,10 +65,7 @@ const MusicPlayer = ({ links }) => {
       </ul>
       {activeTrack !== false && (
         <div>
-          <MusicLink
-            link={links[activeTrack]}
-            setActiveTrack={() => setActiveTrack(activeTrack)}
-          />
+          <MusicLink link={links[activeTrack]} setActiveTrack={setActiveTrack} setPlaying={setPlaying} />
         </div>
       )}
       <br />
