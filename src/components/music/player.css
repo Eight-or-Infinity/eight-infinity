@@ -4,20 +4,34 @@
   padding: 20px 0;
   border-radius: 10px;
   width: 400px;
+  
+  & li {
+    text-align: center;
+  }
+  
+  & iframe {
+    width: 235px;
+  }
+  
+  & .track iframe {
+    height: 80px;
+  }
+  
+  & .playlist iframe {
+    height: 160px;
+  }
+
 }
 
-#music-player li {
-  text-align: center;
-}
 
-#music-player iframe {
-  width: 235px;
-}
+.button {
+  background: gray;
+  color: white;
+  width: 60px;
+  height: 40px;
 
-#music-player .track iframe {
-  height: 80px;
-}
-
-#music-player .playlist iframe {
-  height: 160px;
+  &.playback {
+    background: red;
+    margin: 0 10px;
+  }
 }
