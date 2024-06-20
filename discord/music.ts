@@ -7,7 +7,8 @@ async function getMusic(client) {
 }
 
 async function getMusicMessages(client) {
-  const channel = await client.channels.cache.find(chan => chan.name.match(/music$/)) // Designated Channel
+  const guild = await client.guilds.cache.get(process.env.DISCORD_SERVER)
+  const channel = await guild.channels.cache.find(chan => chan.name.match(/music$/)) // Designated Channel
   const messages = await channel.messages.fetch({ limit: 100 })
   const messageArray = Array.from(messages.values())
   return parseMessages(messageArray)
