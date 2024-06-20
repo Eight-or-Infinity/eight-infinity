@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import YouTube from 'react-youtube'
 import SpotifyEmbed from 'react-spotify-embed'
 import './player.css'
@@ -15,7 +15,7 @@ const insertEmbed = (link, provider) => {
   }
 }
 
-const MusicLink = ({ link, setActiveTrack, setPlaying }) => {
+const MusicLink = ({ link, setActiveTrack, setPlaying, playerRef }) => {
   const { music } = link
   try {
     const { source, url } = music
@@ -26,7 +26,10 @@ const MusicLink = ({ link, setActiveTrack, setPlaying }) => {
         {source === 'YouTube' ? 
           <YouTube
             videoId={url.match(ytRegex)?.[4] || 'BXPL2-MWSNY'}
-            onReady={e => console.log('Ready')}
+            onReady={e => {
+              playerRef.current = e.target
+              console.log('Ready')
+            }}
             onPlay={e => setPlaying(true)}
             onPause={e => setPlaying(false)}
             onEnd={e => {
@@ -48,6 +51,29 @@ const MusicLink = ({ link, setActiveTrack, setPlaying }) => {
 const MusicPlayer = ({ links }) => {
   const [activeTrack, setActiveTrack] = useState<number | boolean>(false)
   const [playing, setPlaying] = useState<boolean>(false)
+  const playerRef = useRef(null)
+
+  const handlePlayPause = () => {
+    if (playerRef.current) {
+      if (playing) {
+        playerRef.current.pauseVideo()
+      } else {
+        playerRef.current.playVideo()
+      }
+    }
+  }
+
+  const handlePrev = () => {
+    if (typeof activeTrack === 'number' && activeTrack > 0) {
+      setActiveTrack(activeTrack - 1)
+    }
+  }
+
+  const handleSkip = () => {
+    if (typeof activeTrack === 'number' && activeTrack < links.length - 1) {
+      setActiveTrack(activeTrack + 1)
+    }
+  }
 
   useEffect(() => {
     console.log('activeTrack', activeTrack)
@@ -65,13 +91,19 @@ const MusicPlayer = ({ links }) => {
       </ul>
       {activeTrack !== false && (
         <div>
-          <MusicLink link={links[activeTrack]} setActiveTrack={setActiveTrack} setPlaying={setPlaying} />
+          <MusicLink link={links[activeTrack]} setActiveTrack={setActiveTrack} setPlaying={setPlaying} playerRef={playerRef} />
         </div>
       )}
       <br />
-      <section style={{ display: 'flex', justifyContent: 'center', borderRadius: 10, maxWidth: 400 }}>
-        <button style={{ background: 'red', color: 'white', width: 60, height: 40 }}>
+      <section style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 10, maxWidth: 400 }}>
+        <button onClick={handlePrev} style={{ background: 'gray', color: 'white', width: 60, height: 40 }}>
+          {'<<<'}
+        </button>
+        <button onClick={handlePlayPause} style={{ background: 'red', color: 'white', width: 60, height: 40, margin: '0 10px' }}>
           {playing ? '||' : '|>'}
+        </button>
+        <button onClick={handleSkip} style={{ background: 'gray', color: 'white', width: 60, height: 40 }}>
+          {'>>>'}
         </button>
       </section>
     </section>
