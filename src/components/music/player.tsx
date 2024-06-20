@@ -38,35 +38,14 @@ const MusicLink = ({ link, setActiveTrack }: { link: any, setActiveTrack: () => 
             onEnd={(e) => console.log('End of song')}                     
             onError={(e) => console.log('Error')}                    
           /> :
-
+          <SpotifyEmbed uri={url} />
           
           // I think this is the right way to do it, but I'm not sure
           // https://developer.spotify.com/documentation/embeds/guides/using-the-iframe-api/
-
-          // This is a react component for Spotify embeds
-          // But if looks limited in terms of events and controls
-          // https://github.com/ctjlewis/react-spotify-embed
-
           // We can get playback events from the iFrame API
           // Maybe we can add this to the react-spotify-embed component ^^^
           // https://developer.spotify.com/documentation/embeds/references/iframe-api/#playback_update
 
-          // This library supports a lot of different embeds
-          // Maybe they intercept events from the iFrame API
-          // https://github.com/itteco/iframely
-          <iframe
-            onClick={e => {
-              console.log(e)
-              setActiveTrack()
-              }
-            }
-            title={`${source} Web Player`}
-            loading="lazy"
-            src={embedLink}
-            style={{ border: 0 }}
-            allow="encrypted-media"
-            allowFullScreen
-          />
           }
       </li>
     )

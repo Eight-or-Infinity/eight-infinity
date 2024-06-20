@@ -11,6 +11,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "trustedDependencies": ["react-spotify-embed"],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "antd": "^4.24.1",
@@ -19,6 +20,7 @@
     "flatted": "3.2.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-spotify-embed": "github:victoralvelais/react-spotify-embed",
     "react-youtube": "^10.1.0",
     "vike": "^0.4.177",
     "vike-react": "^0.4.14"
