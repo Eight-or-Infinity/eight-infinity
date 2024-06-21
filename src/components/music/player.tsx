@@ -18,7 +18,7 @@ const insertEmbed = (link, provider) => {
 }
 
 const MusicLink = (props) => {
-  const { setActiveTrack, setPlaying } = props
+  const { activeTrack, setActiveTrack, setPlaying } = props
   const { youtubeEmbedRef, spotifyEmbedRef } = props
   const { link } = props
   const { music } = link
@@ -52,7 +52,7 @@ const MusicLink = (props) => {
             onPause={e => setPlaying(false)}
             onEnd={e => {
               setPlaying(false)
-              setActiveTrack(false)
+              setActiveTrack(activeTrack + 1)
             }}
           />
         }
@@ -65,7 +65,7 @@ const MusicLink = (props) => {
 }
 
 const MusicPlayer = ({ links }) => {
-  const [activeTrack, setActiveTrack] = useState<number | boolean>(false)
+  const [activeTrack, setActiveTrack] = useState<number>(-1)
   const [playing, setPlaying] = useState<boolean>(false)
   const youtubeEmbedRef = useRef<any>(null)
   const spotifyEmbedRef = useRef<any>(null)
@@ -83,41 +83,38 @@ const MusicPlayer = ({ links }) => {
     }
   }
 
-  const changeTrack = (direction) => {
-    const trackChange = direction === 'prev' ? -1 : 1;
-    const newTrack = activeTrack + trackChange;
+  const changeTrack = (newTrack: number) => {
     if (typeof activeTrack === 'number' && newTrack >= 0 && newTrack < links.length) {
-      const prevSource = links[activeTrack].music.source;
-      const nextSource = links[newTrack].music.source;
-
-      setActiveTrack(newTrack);
-      if (prevSource === 'Spotify' && nextSource === 'Spotify') {
+      const { source } = links[newTrack].music
+      
+      if (source === 'Spotify') {
         const uri = insertEmbed(links[newTrack].music.url, 'Spotify');
         spotifyEmbedRef.current?.loadUri(uri);
       }
     }
-  };
+  }
 
-  const handlePrev = () => changeTrack('prev')
-  const handleSkip = () => changeTrack('next')
+  const handlePrev = () => setActiveTrack(activeTrack - 1)
+  const handleSkip = () => setActiveTrack(activeTrack + 1)
 
-  useEffect(() => {
-    console.log('activeTrack', activeTrack)
-    console.log('playing', playing)
-  }, [activeTrack, playing])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => changeTrack(activeTrack), [activeTrack])
 
   return (
     <section id='music-player'>
       <ul className="music-list">
         {links.map((music, index) => (
           <li key={index}>
-            <button onClick={() => setActiveTrack(index)}>Play</button>
+            <button onClick={() => setActiveTrack(index)}>
+              Load
+            </button>
           </li>
         ))}
       </ul>
-      {activeTrack !== false ? (
+      {activeTrack > -1 ? (
         <MusicLink
           link={links[activeTrack]}
+          activeTrack={activeTrack}
           setActiveTrack={setActiveTrack}
           setPlaying={setPlaying}
           youtubeEmbedRef={youtubeEmbedRef}
