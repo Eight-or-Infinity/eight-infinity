@@ -3,16 +3,16 @@ import YouTube from 'react-youtube'
 import SpotifyEmbed from 'react-spotify-embed'
 // For local development
 // import SpotifyEmbed from "../../../../react-spotify-embed/src/main"
+import { ytRegex, spotRegex } from "../../utils"
 import './player.css'
 
-const ytRegex = /https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=|playlist\?list=)?([A-Za-z0-9\-_]+)/
 
 const insertEmbed = (link, provider) => {
   if (provider === 'YouTube') {
     const match = link.match(ytRegex)
     return `https://youtube.com/${match[3]}${match[4]}`
   } else {
-    const match = link.match(/https:\/\/open\.spotify\.com\/(track|album)\/(\w*)/)
+    const match = link.match(spotRegex)
     return `spotify:${match[1]}:${match[2]}`
   }
 }

@@ -1,4 +1,5 @@
 import { parse, stringify } from 'flatted'
+import { ytRegex, spotRegex } from '../src/utils'
 
 async function getMusic(client) {
   const messages = await getMusicMessages(client)
@@ -27,8 +28,6 @@ function grabLinks(messages) {
 }
 
 export const musicMatch = (list, msg) => {
-  const ytRegex = /https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=|playlist\?list=)?([A-Za-z0-9\-_]+)/
-  const spotRegex = /https:\/\/open\.spotify\.com\/(track|album)\/(\w*)/
   const ytMatch = msg.content.match(ytRegex)
   const spotMatch = msg.content.match(spotRegex)
 
