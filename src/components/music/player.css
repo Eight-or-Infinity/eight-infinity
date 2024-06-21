@@ -1,12 +1,12 @@
 #music-player {
   background: #222;
   height: 500px;
-  padding: 20px;
+  padding: 24px 24px;
   border-radius: 10px;
-  width: 400px;
+  width: 348px;
   
   & > .music-list {
-    max-height: 300px;
+    max-height: 228px;
     overflow: auto;
     background: white;
     margin: 0 auto;
@@ -27,15 +27,22 @@
     display: flex;
     justify-content: center;
     padding: 8px 0;
+    /* height: 96px; */
+    height: 168px;
 
     & iframe {
       margin: 0;
       max-width: 100%;
-      max-height: 80px;
+      /* max-height: 80px; */
+      max-height: 160px;
     }
 
-    & .playlist iframe {
-      max-height: 160px;
+    &.playlist, &.album {
+      height: 168px;
+
+      & iframe {
+        max-height: 160px;
+      }
     }
   }
 

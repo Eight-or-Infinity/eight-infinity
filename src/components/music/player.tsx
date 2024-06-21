@@ -115,15 +115,15 @@ const MusicPlayer = ({ links }) => {
           </li>
         ))}
       </ul>
-      {activeTrack !== false && (
+      {activeTrack !== false ? (
         <MusicLink
           link={links[activeTrack]}
           setActiveTrack={setActiveTrack}
           setPlaying={setPlaying}
           youtubeEmbedRef={youtubeEmbedRef}
           spotifyEmbedRef={spotifyEmbedRef}
-        />
-      )}
+        />) : <section id="player"></section>
+      }
       <section className="player-controls">
         <button className="button" onClick={handlePrev}>
           {'<<<'}
