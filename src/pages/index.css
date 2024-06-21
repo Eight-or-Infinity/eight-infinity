@@ -69,22 +69,6 @@ footer {
   justify-content: center;
 }
 
-/* Music */
-
-.music-list {
-  max-height: 300px;
-  overflow: auto;
-  background: white;
-  max-width: 70%;
-  margin: 0 auto;
-  border-radius: 2px;
-  padding: 10px;
-}
-
-.music-list::-webkit-scrollbar {
-  display: none;
-}
-
 /* Gradient */
 
 body {

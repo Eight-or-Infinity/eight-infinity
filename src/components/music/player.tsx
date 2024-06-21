@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react"
 import YouTube from 'react-youtube'
 import SpotifyEmbed from 'react-spotify-embed'
+// For local development
+// import SpotifyEmbed from "../../../../react-spotify-embed/src/main"
 import './player.css'
 
 const ytRegex = /https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=|playlist\?list=)?([A-Za-z0-9\-_]+)/
@@ -26,8 +28,8 @@ const MusicLink = (props) => {
     const embedLink = insertEmbed(url, source)
 
     return (
-      <section className={url.match(/album|playlist/) ? 'playlist' : 'track'}>
-        {source === 'YouTube' ? 
+      <section id="player" className={url.match(/album|playlist/) ? 'playlist' : 'track'}>
+        {source === 'YouTube' ?
           <YouTube
             ref={youtubeEmbedRef}
             videoId={url.match(ytRegex)?.[4] || 'BXPL2-MWSNY'}
@@ -56,7 +58,7 @@ const MusicLink = (props) => {
         }
       </section>
     )
-  } catch(e) {
+  } catch (e) {
     console.log(e, link)
     return <li><a href={music}>Error</a></li>
   }
@@ -70,8 +72,7 @@ const MusicPlayer = ({ links }) => {
 
   const handlePlayPause = () => {
     if (youtubeEmbedRef.current || spotifyEmbedRef.current) {
-      console.log('youtubeEmbedRef', youtubeEmbedRef)
-      console.log('spotifyEmbedRef', spotifyEmbedRef)
+
       if (playing) {
         youtubeEmbedRef.current?.pauseVideo()
         spotifyEmbedRef.current?.togglePlay()
@@ -82,17 +83,23 @@ const MusicPlayer = ({ links }) => {
     }
   }
 
-  const handlePrev = () => {
-    if (typeof activeTrack === 'number' && activeTrack > 0) {
-      setActiveTrack(activeTrack - 1)
-    }
-  }
+  const changeTrack = (direction) => {
+    const trackChange = direction === 'prev' ? -1 : 1;
+    const newTrack = activeTrack + trackChange;
+    if (typeof activeTrack === 'number' && newTrack >= 0 && newTrack < links.length) {
+      const prevSource = links[activeTrack].music.source;
+      const nextSource = links[newTrack].music.source;
 
-  const handleSkip = () => {
-    if (typeof activeTrack === 'number' && activeTrack < links.length - 1) {
-      setActiveTrack(activeTrack + 1)
+      setActiveTrack(newTrack);
+      if (prevSource === 'Spotify' && nextSource === 'Spotify') {
+        const uri = insertEmbed(links[newTrack].music.url, 'Spotify');
+        spotifyEmbedRef.current?.loadUri(uri);
+      }
     }
-  }
+  };
+
+  const handlePrev = () => changeTrack('prev')
+  const handleSkip = () => changeTrack('next')
 
   useEffect(() => {
     console.log('activeTrack', activeTrack)
@@ -109,18 +116,15 @@ const MusicPlayer = ({ links }) => {
         ))}
       </ul>
       {activeTrack !== false && (
-        <div>
-          <MusicLink
-            link={links[activeTrack]}
-            setActiveTrack={setActiveTrack}
-            setPlaying={setPlaying}
-            youtubeEmbedRef={youtubeEmbedRef}
-            spotifyEmbedRef={spotifyEmbedRef}
-          />
-        </div>
+        <MusicLink
+          link={links[activeTrack]}
+          setActiveTrack={setActiveTrack}
+          setPlaying={setPlaying}
+          youtubeEmbedRef={youtubeEmbedRef}
+          spotifyEmbedRef={spotifyEmbedRef}
+        />
       )}
-      <br />
-      <section style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 10, maxWidth: 400 }}>
+      <section className="player-controls">
         <button className="button" onClick={handlePrev}>
           {'<<<'}
         </button>

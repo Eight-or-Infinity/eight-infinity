@@ -1,26 +1,51 @@
 #music-player {
   background: #222;
   height: 500px;
-  padding: 20px 0;
+  padding: 20px;
   border-radius: 10px;
   width: 400px;
   
-  & li {
-    text-align: center;
-  }
-  
-  & iframe {
-    width: 235px;
-  }
-  
-  & .track iframe {
-    height: 80px;
-  }
-  
-  & .playlist iframe {
-    height: 160px;
+  & > .music-list {
+    max-height: 300px;
+    overflow: auto;
+    background: white;
+    margin: 0 auto;
+    border-radius: 2px;
+    padding: 10px;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    & > li {
+      text-align: center;
+      list-style: none;
+    }
   }
 
+  & #player {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+
+    & iframe {
+      margin: 0;
+      max-width: 100%;
+      max-height: 80px;
+    }
+
+    & .playlist iframe {
+      max-height: 160px;
+    }
+  }
+
+  & .player-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    max-width: 400px;
+}
 }
 
 
