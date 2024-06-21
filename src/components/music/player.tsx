@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react"
 import YouTube from 'react-youtube'
+import MusicPreview from "./preview"
 import SpotifyEmbed from 'react-spotify-embed'
 // For local development
 // import SpotifyEmbed from "../../../../react-spotify-embed/src/main"
 import { ytRegex, spotRegex } from "../../utils"
 import './player.css'
-
 
 const insertEmbed = (link, provider) => {
   if (provider === 'YouTube') {
@@ -103,8 +103,9 @@ const MusicPlayer = ({ links }) => {
   return (
     <section id='music-player'>
       <ul className="music-list">
-        {links.map((music, index) => (
+        {links.map((link, index) => (
           <li key={index}>
+            <MusicPreview message={link} />
             <button onClick={() => setActiveTrack(index)}>
               Load
             </button>
