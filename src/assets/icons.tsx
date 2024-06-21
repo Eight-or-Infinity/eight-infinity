@@ -9,7 +9,12 @@ import Audius from './Audius.svg'
 import OpenSea from './OpenSea.svg'
 import Discord from './Discord.svg'
 
-const backgroundIcon = ({ Icon }) => {
+interface IconProps {
+  color?: string;
+  Icon: string;
+}
+
+const backgroundIcon = ({ Icon }: IconProps) => {
   return (
     <div
       className='svg-icon-background'
@@ -21,7 +26,7 @@ const backgroundIcon = ({ Icon }) => {
   )
 }
 
-const maskIcon = ({ color, Icon }) => {
+const maskIcon = ({ color, Icon }: IconProps) => {
   return (
     <div
       className='svg-icon-mask'
@@ -35,15 +40,15 @@ const maskIcon = ({ color, Icon }) => {
 }
 
 const Icons = {
-  Facebook: () => backgroundIcon({ color: null, Icon: Facebook }),
-  Instagram: () => backgroundIcon({ color: null, Icon: Instagram }),
-  Twitch: () => backgroundIcon({ color: null, Icon: Twitch }),
-  Twitter: () => backgroundIcon({ color: null, Icon: Twitter }),
+  Facebook: () => backgroundIcon({ Icon: Facebook }),
+  Instagram: () => backgroundIcon({ Icon: Instagram }),
+  Twitch: () => backgroundIcon({ Icon: Twitch }),
+  Twitter: () => backgroundIcon({ Icon: Twitter }),
   YouTube: () => backgroundIcon({ color: 'red', Icon: YouTube }),
   Spotify: () => maskIcon({ color: '#1DB954', Icon: Spotify }),
-  Audius: () => backgroundIcon({ color: null, Icon: Audius }),
-  OpenSea: () => backgroundIcon({ color: null, Icon: OpenSea }),
-  Discord: () => backgroundIcon({ color: null, Icon: Discord }),
+  Audius: () => backgroundIcon({ Icon: Audius }),
+  OpenSea: () => backgroundIcon({ Icon: OpenSea }),
+  Discord: () => backgroundIcon({ Icon: Discord }),
 }
 
 export default Icons
