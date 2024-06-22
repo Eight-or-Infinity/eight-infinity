@@ -105,10 +105,10 @@ const MusicPlayer = ({ links }) => {
       <ul className="music-list">
         {links.map((link, index) => (
           <li key={index}>
-            <MusicPreview message={link} />
-            <button onClick={() => setActiveTrack(index)}>
-              Load
-            </button>
+            <MusicPreview
+              message={link}
+              onClick={() => setActiveTrack(index)}
+            />
           </li>
         ))}
       </ul>

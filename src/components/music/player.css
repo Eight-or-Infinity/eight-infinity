@@ -23,8 +23,16 @@
       margin: 0;
       border-bottom: 1px solid #222;
 
+      &:hover {
+        background: linear-gradient(145deg, #976efe 0%, #c6b0ff 25%, #ffffff 100%);
+      }
+
       & .music-info {
+        display: 'flex';
         padding: 0 8px;
+        align-items: 'center';
+        margin-bottom: '10px';
+
         & .music-title {
           display: flex;
           text-align: left;
