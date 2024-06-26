@@ -23,7 +23,7 @@ const MusicPage = () => {
   return (
     <Layout>
       {/* <SEO /> */}
-      <section style={{ padding: 15 }}>
+      <section>
         <h1 style={{ textAlign: 'center' }}>Music</h1>
         <MusicPlayer links={music} />
       </section>
