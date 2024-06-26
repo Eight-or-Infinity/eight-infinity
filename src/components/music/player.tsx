@@ -10,7 +10,7 @@ import './player.css'
 const insertEmbed = (link, provider) => {
   if (provider === 'YouTube') {
     const match = link.match(ytRegex)
-    return `https://youtube.com/${match[3]}${match[4]}`
+    return `${match[1]}`
   } else {
     const match = link.match(spotRegex)
     return `spotify:${match[1]}:${match[2]}`
@@ -18,9 +18,9 @@ const insertEmbed = (link, provider) => {
 }
 
 const MusicLink = (props) => {
-  const { activeTrack, setActiveTrack, setPlaying } = props
+  const { activeTrack, handlePause, handleEnd, setPlaying, setReady } = props
   const { youtubeEmbedRef, spotifyEmbedRef } = props
-  const { link } = props
+  const { link, playing } = props
   const { music } = link
 
   try {
@@ -29,33 +29,29 @@ const MusicLink = (props) => {
 
     return (
       <section id="player" className={url.match(/album|playlist/) ? 'playlist' : 'track'}>
-        {source === 'YouTube' ?
-          <YouTube
-            ref={youtubeEmbedRef}
-            videoId={url.match(ytRegex)?.[4] || 'BXPL2-MWSNY'}
-            onReady={e => {
-              youtubeEmbedRef.current = e.target
-              console.log('Ready')
-            }}
-            onPlay={e => setPlaying(true)}
-            onPause={e => setPlaying(false)}
-            onEnd={e => {
-              setPlaying(false)
-              setActiveTrack(false)
-            }}
-            onError={e => console.log('Error')}
-          /> :
-          <SpotifyEmbed
-            ref={spotifyEmbedRef}
-            uri={embedLink}
-            onPlay={e => setPlaying(true)}
-            onPause={e => setPlaying(false)}
-            onEnd={e => {
-              setPlaying(false)
-              setActiveTrack(activeTrack + 1)
-            }}
-          />
-        }
+          {source === 'YouTube'
+          ? <YouTube
+              ref={youtubeEmbedRef}
+              videoId={embedLink}
+              onReady={e => {
+                youtubeEmbedRef.current = e.target
+                setReady(true)
+              }}
+              opts={{ playerVars: { autoplay: playing ? 1 : 0 } }}
+              onPlay={e => setPlaying(true)}
+              onPause={() => handlePause(activeTrack)}
+              onEnd={e => handleEnd()}
+              onError={e => console.log('Error', e)}
+            />
+          : <SpotifyEmbed
+              ref={spotifyEmbedRef}
+              uri={embedLink}
+              onPlay={() => setPlaying(true)}
+              onPause={() => handlePause(activeTrack)}
+              onEnd={() => handleEnd()}
+              onReady={() => setReady(true)}
+            />
+          }
       </section>
     )
   } catch (e) {
@@ -67,26 +63,30 @@ const MusicLink = (props) => {
 const MusicPlayer = ({ links }) => {
   const [activeTrack, setActiveTrack] = useState<number>(-1)
   const [playing, setPlaying] = useState<boolean>(false)
+  const [ready, setReady] = useState<boolean>(false)
   const youtubeEmbedRef = useRef<any>(null)
   const spotifyEmbedRef = useRef<any>(null)
 
   const handlePlayPause = () => {
     if (youtubeEmbedRef.current || spotifyEmbedRef.current) {
+      const { source } = links[activeTrack].music
 
       if (playing) {
-        youtubeEmbedRef.current?.pauseVideo()
-        spotifyEmbedRef.current?.togglePlay()
+        source === 'YouTube'
+        ? youtubeEmbedRef.current?.pauseVideo()
+        : spotifyEmbedRef.current?.pause()
       } else {
-        youtubeEmbedRef.current?.playVideo()
-        spotifyEmbedRef.current?.togglePlay()
+        source === 'YouTube'
+        ? youtubeEmbedRef.current?.playVideo()
+        : spotifyEmbedRef.current?.togglePlay()
       }
     }
   }
 
   const changeTrack = (newTrack: number) => {
-    if (typeof activeTrack === 'number' && newTrack >= 0 && newTrack < links.length) {
+    if (newTrack >= 0 && newTrack < links.length) {
       const { source } = links[newTrack].music
-      
+
       if (source === 'Spotify') {
         const uri = insertEmbed(links[newTrack].music.url, 'Spotify');
         spotifyEmbedRef.current?.loadUri(uri);
@@ -94,21 +94,34 @@ const MusicPlayer = ({ links }) => {
     }
   }
 
-  const handlePrev = () => setActiveTrack(activeTrack - 1)
-  const handleSkip = () => setActiveTrack(activeTrack + 1)
+  const autoPlay = () => {
+    if (ready && playing) {
+      if (links[activeTrack].music.source === 'Spotify') {
+        spotifyEmbedRef.current?.resume()
+      }
+    }
+  }
+
+  const handleNext = (index: number) => {
+    setReady(false)
+    setActiveTrack(index)
+  }
+
+  const handlePause = () => setPlaying(false)
+  const handlePrev = () => handleNext(activeTrack - 1)
+  const handleSkip = () => handleNext(activeTrack + 1)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => changeTrack(activeTrack), [activeTrack])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => autoPlay(), [ready, activeTrack])
 
   return (
     <section id='music-player'>
       <ul className="music-list">
         {links.map((link, index) => (
           <li key={index}>
-            <MusicPreview
-              message={link}
-              onClick={() => setActiveTrack(index)}
-            />
+            <MusicPreview message={link} onClick={() => handleNext(index)} />
           </li>
         ))}
       </ul>
@@ -116,8 +129,11 @@ const MusicPlayer = ({ links }) => {
         <MusicLink
           link={links[activeTrack]}
           activeTrack={activeTrack}
-          setActiveTrack={setActiveTrack}
+          handlePause={handlePause}
+          handleEnd={handleSkip}
+          playing={playing}
           setPlaying={setPlaying}
+          setReady={setReady}
           youtubeEmbedRef={youtubeEmbedRef}
           spotifyEmbedRef={spotifyEmbedRef}
         />) : <section id="player"></section>

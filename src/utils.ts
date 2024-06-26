@@ -1,2 +1,2 @@
 export const spotRegex = /https:\/\/open\.spotify\.com\/(track|album|playlist)\/(\w*)/
-export const ytRegex = /https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/(watch\?v=|playlist\?list=)?([A-Za-z0-9\-_]+)/
+export const ytRegex = /https?:\/\/(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v=|playlist\?list=)?([A-Za-z0-9\-_]+)/
