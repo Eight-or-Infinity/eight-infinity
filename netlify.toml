@@ -2,5 +2,5 @@
   directory = "netlify/functions"
 
 [build]
-  publish = "dist/client"
+  publish = "dist/client/"
   command = "bun run build"
