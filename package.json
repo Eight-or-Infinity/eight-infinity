@@ -9,7 +9,8 @@
     "net-dev": "netlify dev",
     "functions": "netlify functions:serve",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preview-build": "vite build && vite preview"
   },
   "trustedDependencies": ["react-spotify-embed"],
   "dependencies": {
