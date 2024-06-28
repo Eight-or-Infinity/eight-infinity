@@ -20,19 +20,20 @@ const buildCred = ({ title, org, url }) => (
 )
 
 const Intro = data => {
-  const { main, secondary, credentials, expand } = data
+  const { description, secondary, credentials, expand } = data
 
   return (
-    <div>
-      <div>{main}{secondary ? ` • ${secondary}` : null}</div>
+    <section id="intro">
+      <div>{description}</div>
+      {secondary && <div>{secondary}</div>}
       {expand && credentials.map(buildCred)}
-    </div>
+    </section>
   )
 }
 
 const Profile = () => {
   const [expand, setExpand] = useState(false)
-  const { main, secondary, credentials, name, image } = siteMetadata.intro
+  const { description, secondary, credentials, name, image } = siteMetadata.intro
   const ExpandIcon = expand ? UpOutlined : DownOutlined
   
   return (
@@ -46,7 +47,7 @@ const Profile = () => {
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Meta
           title={name}
-          description={Intro({ main, secondary, credentials, expand })}
+          description={Intro({ description, secondary, credentials, expand })}
           style={{ textAlign: 'center', marginBottom: 10, justifyContent: 'center' }}
         />
         <LinkSection expand={expand} />

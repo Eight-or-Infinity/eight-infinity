@@ -50,12 +50,18 @@ footer {
   border-bottom: 0;
 }
 
+#intro {
+  max-width: 420px;
+}
+
 .profile-pic {
   border-radius: 8%;
   transition: all .1s ease-in-out;
   margin: auto;
+  max-width: 300px;
   
   &.expand {
+    max-width: 150px;
     border-radius: 50%;
   }
 }
@@ -101,16 +107,6 @@ body {
   mask-size: contain;
   mask-repeat: no-repeat;
   mask-position: center;
-}
-
-@media only screen and (min-width: 480px) {
-  .profile-pic {
-    max-width: 300px;
-
-    &.expand {
-      max-width: 150px;
-    }
-  }
 }
 
 @media only screen and (max-width: 480px) {

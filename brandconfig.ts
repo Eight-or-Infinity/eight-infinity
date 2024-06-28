@@ -6,9 +6,12 @@ import profileImage from "./src/assets/profile-image.png";
 const intro = {
   name: "Eight or Infinity",
   image: { location: profileImage, alt: "Eight/Infinity logo" },
-  main: "Exploring worlds",
-  secondary: "Join the ship",
   credentials: [{ title: "", org: "", url: "" }],
+  description: (""
+    + "A space for the dreamers & builders, the knowers & explorers, the gamers & creators, "
+    + "where we come together to build ourselves & each other."
+  ),
+  secondary: "Join the ship 🚀",
 };
 
 const links = {
@@ -46,8 +49,8 @@ const links = {
 };
 
 const siteMetadata = {
-  title: `Eight or Infinity`,
-  description: `${intro.main} | ${intro.secondary}`,
+  title: `Join the ship 🚀`,
+  description: `${intro.description} ${intro.secondary}`,
   author: `@EightOrInfinity`,
   image: intro.image, // Path to your image you placed in the 'static' folder
   url: `https://eightorinfinity.com`,
