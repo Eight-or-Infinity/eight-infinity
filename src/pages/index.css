@@ -53,8 +53,13 @@ footer {
   border-bottom: 0;
 }
 
-#intro {
+#desc {
   max-width: 420px;
+
+  & > p {
+    color: rgba(0, 0, 0, 0.65);
+    margin-bottom: 0;
+  }
 }
 
 .profile-pic {

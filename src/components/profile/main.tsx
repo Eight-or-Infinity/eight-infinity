@@ -20,12 +20,11 @@ const buildCred = ({ title, org, url }) => (
 )
 
 const Intro = data => {
-  const { description, secondary, credentials, expand } = data
+  const { description, credentials, expand } = data
 
   return (
-    <section id="intro">
-      <div>{description}</div>
-      {secondary && <div>{secondary}</div>}
+    <section id="desc">
+      <p>{description}</p>
       {expand && credentials.map(buildCred)}
     </section>
   )
@@ -46,7 +45,12 @@ const Profile = () => {
     >
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Meta
-          title={<h1>{name}</h1>}
+          title={
+            <>
+              <h1>{name}</h1>
+              {secondary && <h4>{secondary}</h4>}
+            </>
+          }
           description={Intro({ description, secondary, credentials, expand })}
           style={{ textAlign: 'center', marginBottom: 10, justifyContent: 'center' }}
         />
