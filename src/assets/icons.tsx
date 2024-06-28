@@ -18,10 +18,7 @@ const backgroundIcon = ({ Icon }: IconProps) => {
   return (
     <div
       className='svg-icon-background'
-      style={{
-        WebkitBackgroundImage: `url(${Icon})`,
-        backgroundImage: `url(${Icon})`,
-      }}
+      style={{ backgroundImage: `url("${Icon}")` }}
     />
   )
 }
