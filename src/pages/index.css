@@ -38,8 +38,11 @@ footer {
 }
 
 .ant-card-meta-title {
-  font-size: 2em;
   margin: 0 !important;
+
+  & h1 {
+    font-size: xx-large;
+  }
 }
 
 .ant-card-meta-description {

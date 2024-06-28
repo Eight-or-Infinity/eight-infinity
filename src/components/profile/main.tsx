@@ -46,7 +46,7 @@ const Profile = () => {
     >
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Meta
-          title={name}
+          title={<h1>{name}</h1>}
           description={Intro({ description, secondary, credentials, expand })}
           style={{ textAlign: 'center', marginBottom: 10, justifyContent: 'center' }}
         />
