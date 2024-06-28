@@ -1,4 +1,4 @@
-import profileImage from "./src/images/profile-image.png";
+import profileImage from "./src/assets/profile-image.png";
 
 // Consider this project for file structure inspiration
 // https://github.com/brunsten/vike-react-netlify/tree/main
