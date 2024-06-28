@@ -49,8 +49,8 @@ const links = {
 };
 
 const siteMetadata = {
-  title: `Join the ship 🚀`,
-  description: `${intro.description} ${intro.secondary}`,
+  title: `${intro.name} — ${intro.secondary}`,
+  description: `${intro.description}`,
   author: `@EightOrInfinity`,
   image: intro.image, // Path to your image you placed in the 'static' folder
   url: `https://eightorinfinity.com`,
