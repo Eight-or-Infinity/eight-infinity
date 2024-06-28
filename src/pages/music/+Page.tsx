@@ -5,8 +5,7 @@ import 'antd/dist/antd.css';
 import "../index.css"
 
 const fetchMusic = async () => {
-  const response = await fetch('/.netlify/functions/music')
-  // const response = await fetch('/api/music')
+  const response = await fetch('/api/music')
   const data = await response.json()
   console.log(data)
   return data
