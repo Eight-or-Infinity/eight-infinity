@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import siteMetadata from '../../../brandconfig'
-// import { GatsbyImage, getImage } from 'gatsby-plugin-image'
 import { Card } from "antd"
 import LinkSection from './links'
 import { DownOutlined, UpOutlined } from '@ant-design/icons'
@@ -9,11 +8,9 @@ const { Meta } = Card
 
 const pic = ({ image, expand }) => (
   <img
+    className={`profile-pic ${expand ? 'expand' : ''}`}
     src={image.location}
-    style={{ borderRadius: expand ? '50%' : '8%', maxWidth: expand ? 150 : 300 }}
     alt={image.alt}
-    // width={300}
-    // quality={95}
     // formats={["AUTO", "WEBP", "AVIF"]}
   />
 )
