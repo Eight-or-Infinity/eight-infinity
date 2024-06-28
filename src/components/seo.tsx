@@ -1,48 +1,40 @@
-/**
- * SEO component that queries for data with
- *  Gatsby's useStaticQuery React hook
- *
- * See: https://www.gatsbyjs.com/docs/use-static-query/
- */
-
 import React from "react"
-import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
+import siteMetaData from "../../brandconfig"
+import icon from "../assets/profile-image.png"
 
-function SEO({ description, lang, meta, title }) {
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            title
-            description
-            author
-            image {
-              location
-            }
-            url
-          }
-        }
-      }
-    `
-  )
+type SEOProps = {
+  description?: string,
+  lang?: string,
+  meta?: HTMLMetaElement[],
+  title?: string
+}
 
-  const metaDescription = description || site.siteMetadata.description
-  const defaultTitle = site.siteMetadata?.title
+type MetaProps = {
+  name?: string,
+  property?: string,
+  content: string
+}
 
-  const metaList = [
+const SEO = ({ description, lang = 'en', meta = [], title }: SEOProps) => {
+  const metaDescription = description || siteMetaData.description
+  const realTitle = title || siteMetaData?.title
+
+  const metaList: MetaProps[] = [
     {
       name: `description`,
       content: metaDescription,
     },
     {
       property: `og:title`,
-      content: title || defaultTitle,
+      content: realTitle,
     },
     {
       property: `og:description`,
       content: metaDescription,
+    },
+    {
+      property: `lang`,
+      content: lang,
     },
     {
       property: `og:type`,
@@ -50,7 +42,7 @@ function SEO({ description, lang, meta, title }) {
     },
     {
       property: `og:image`,
-      content: `${site.siteMetadata.url}${site.siteMetadata.image.location}`
+      content: `${siteMetaData.url}${siteMetaData.image.location}`
     },
     {
       name: `twitter:card`,
@@ -58,11 +50,11 @@ function SEO({ description, lang, meta, title }) {
     },
     {
       name: `twitter:creator`,
-      content: site.siteMetadata?.author || ``,
+      content: siteMetaData?.author || ``,
     },
     {
       name: `twitter:title`,
-      content: title,
+      content: realTitle,
     },
     {
       name: `twitter:description`,
@@ -72,27 +64,19 @@ function SEO({ description, lang, meta, title }) {
 
   return (
     <>
-      <title>{title || defaultTitle}</title>
+      <title>{realTitle}</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       {metaTags(metaList)}
+      {meta.map((tag) => tag)}
+      <link rel="icon" type="image/png" href={icon} />
     </>
   )
 }
 
-const metaTags = (tags) => (
-  tags.map(({ name, property, content }) => <meta key={name || property} name={name} content={content} />)
+const metaTags = (tags: MetaProps[]) => (
+  tags.map(({ name, property, content }) => (
+    <meta key={name || property} name={name} content={content} />
+  ))
 )
-
-SEO.defaultProps = {
-  lang: `en`,
-  meta: [],
-  description: ``,
-}
-
-SEO.propTypes = {
-  description: PropTypes.string,
-  lang: PropTypes.string,
-  meta: PropTypes.arrayOf(PropTypes.object),
-  title: PropTypes.string,
-}
 
 export default SEO
