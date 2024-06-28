@@ -7,9 +7,15 @@ const intro = {
   name: "Eight or Infinity",
   image: { location: profileImage, alt: "Eight/Infinity logo" },
   credentials: [{ title: "", org: "", url: "" }],
-  description: (""
-    + "A space for the dreamers & builders, the knowers & explorers, the gamers & creators, "
-    + "where we come together to build ourselves & each other."
+  // description: (""
+  //   + "A space for the dreamers & builders, the knowers & explorers, the gamers & creators, "
+  //   + "where we come together to build ourselves & each other."
+  // ),
+  description: (``
+    + `A virtual Space Station for the Dreamers & Builders, `
+    + `the Knowers & Explorers, the Gamers & Creators; `
+    + `TOGETHER, we'll build Ourselves, Each Other AND the Future. `
+    + `FOR THE BETTERMENT OF ALL.`
   ),
   secondary: "Join the ship 🚀",
 };
