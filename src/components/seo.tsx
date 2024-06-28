@@ -42,7 +42,7 @@ const SEO = ({ description, lang = 'en', meta = [], title }: SEOProps) => {
     },
     {
       property: `og:image`,
-      content: `${siteMetaData.url}${siteMetaData.image.location}`
+      content: siteMetaData.image.location
     },
     {
       name: `twitter:card`,
@@ -75,7 +75,7 @@ const SEO = ({ description, lang = 'en', meta = [], title }: SEOProps) => {
 
 const metaTags = (tags: MetaProps[]) => (
   tags.map(({ name, property, content }) => (
-    <meta key={name || property} name={name} content={content} />
+    <meta key={name || property} property={property} name={name} content={content} />
   ))
 )
 
