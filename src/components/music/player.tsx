@@ -80,6 +80,9 @@ const MusicPlayer = ({ links }) => {
         ? youtubeEmbedRef.current?.playVideo()
         : spotifyEmbedRef.current?.togglePlay()
       }
+    } else if (activeTrack === -1) {
+      setPlaying(true)
+      handleSkip()
     }
   }
 
