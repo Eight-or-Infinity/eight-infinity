@@ -12,10 +12,13 @@
     "preview": "vite preview",
     "preview-build": "vite build && vite preview"
   },
-  "trustedDependencies": ["react-spotify-embed"],
+  "trustedDependencies": [
+    "react-spotify-embed"
+  ],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
     "antd": "^4.24.1",
+    "canvas-confetti": "^1.9.3",
     "discord.js": "^14.6.0",
     "express": "^4.19.2",
     "flatted": "3.2.7",
@@ -27,6 +30,7 @@
     "vike-react": "^0.4.14"
   },
   "devDependencies": {
+    "@types/canvas-confetti": "^1.6.4",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
