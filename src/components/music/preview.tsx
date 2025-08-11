@@ -27,6 +27,7 @@ const MusicPreview: React.FC<MusicPreviewProps> = ({ message, onClick }) => {
     .replace(spotRegex, '')
     .replace(/\?.*$/, '') // Remove any query parameters
     .replace(/#.*$/, '')  // Remove any hash fragments
+    .replace(/<@\d{18}>/g, '@passenger') // Replace all user mentions with generic name
     .trim()
 
   return (
