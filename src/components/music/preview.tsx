@@ -1,6 +1,7 @@
 import React from 'react'
 import { Tooltip } from 'antd'
 import Icons from '../../assets/icons'
+import { ytRegex, spotRegex } from "../../utils"
 
 interface MusicPreviewProps {
   message: any
@@ -10,10 +11,9 @@ interface MusicPreviewProps {
 const MusicPreview: React.FC<MusicPreviewProps> = ({ message, onClick }) => {
   const { author, content, embeds } = message
   const [embed] = embeds
-  const { description, provider, thumbnail, title } = embed
+  const { provider, thumbnail, title } = embed
   const { name } = provider
   const Icon: SVGRectElement = Icons[name]
-  const desc = embed.author ? embed.author.name : description
 
   const handleClick = (e: React.MouseEvent) => {
     const selection = window.getSelection()?.toString() || ''
@@ -21,25 +21,30 @@ const MusicPreview: React.FC<MusicPreviewProps> = ({ message, onClick }) => {
     if (selection.length <= 0 && !isExcluded) onClick()
   }
 
+  console.log('message', message.content)
+  const userMessage = message.content
+    .replace(ytRegex, '')
+    .replace(spotRegex, '')
+    .replace(/\?.*$/, '') // Remove any query parameters
+    .replace(/#.*$/, '')  // Remove any hash fragments
+    .trim()
+
   return (
     <section className='music-info' onClick={handleClick}>
-      <img src={author.avatarURL} alt="user-profile" style={{ width: '50px', borderRadius: '50%', marginRight: '10px' }} />
+      <div className='cred'>
+        <img
+          src={author.avatarURL}
+          alt="user-profile"
+        />
+        <span>{userMessage.length ? userMessage : "8/∞"}</span>
+      </div>
       <div>
-        <div>
-          <h5 className="music-title">
-            <Tooltip title={content} placement="right">
-              <a href={content} target="_blank" rel="noreferrer">
-                <Icon />
-              </a>
-            </Tooltip>
-            <span>{title}</span>
-          </h5>
-        </div>
-        <div className="music-description-wrapper">
-          <span className="music-description">
-            {desc.replace(/ - Topic/, '')}
-          </span>
-        </div>
+        <h5 className="music-title">
+          <Tooltip title={content} placement="right">
+            <a href={content} target="_blank" rel="noreferrer"><Icon /></a>
+          </Tooltip>
+          <span>{title}</span>
+        </h5>
       </div>
     </section>
   )
