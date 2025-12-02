@@ -3,7 +3,7 @@
 
 [build]
   publish = "dist/client/"
-  command = "bun run build"
+  command = "npm run build"
 
 [[redirects]]
   from = "/api/*"
@@ -11,4 +11,4 @@
   status = 200
 
 [dev]
-  publish = "dist/"
+  targetPort = 3000
